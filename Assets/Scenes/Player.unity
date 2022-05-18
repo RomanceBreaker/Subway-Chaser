@@ -700,7 +700,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ba1627082fed444b8e4caa343d0625f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  note: {fileID: 2248027629296091661, guid: f9f2fde15bc47bb459dbdaf6330f4746, type: 3}
+  notes:
+  - {fileID: 884671193930230111, guid: ee12c53ca570cfd4fabab151c41c3583, type: 3}
+  - {fileID: 8535869429184190480, guid: 8c7a7b9c71927ee4ea753459f1db9089, type: 3}
+  - {fileID: -5377560385074475753, guid: 641de365fbac17445a27133fa297d6c1, type: 3}
+  - {fileID: 1453063692455327243, guid: 4045f84a87fbc8a498e17c81aca4e4dc, type: 3}
+  - {fileID: -7430170390258968228, guid: 07b512fdba1780d4b98eda67b03fb7c2, type: 3}
   startPos: {x: 0, y: 0, z: 0}
   currPos: {x: 0, y: 0, z: 0}
   hitTrans: {fileID: 775721596}

@@ -61,7 +61,6 @@ public class Note : MonoBehaviour
         {
             if (hitObj.collider.tag == "Note")
             {
-                Debug.Log("bamm!");
                 Destroy(hitObj.collider.gameObject);
             }
         }
