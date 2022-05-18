@@ -65,4 +65,15 @@ public class Note : MonoBehaviour
             }
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Collision");
+
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("Player");
+            Destroy(this.gameObject);
+        }
+    }
 }
