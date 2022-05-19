@@ -32,6 +32,14 @@ public class PlayerManager : MonoBehaviour
         {
             RotateRight();
         }
+        if (Input.GetKey(KeyCode.A))    // 왼쪽 이동
+        {
+            MoveLeft();
+        }
+        if (Input.GetKey(KeyCode.D))    // 오른쪽 이동
+        {
+            MoveRight();
+        }
         if (Input.GetMouseButtonDown(1))    // 점프 (마우스 우클릭)
         {
             Jump();
@@ -55,6 +63,16 @@ public class PlayerManager : MonoBehaviour
     private void RotateRight()
     {
         rigid.rotation = rigid.rotation * Quaternion.Euler(0f, 90.0f, 0f);
+    }
+
+    private void MoveLeft()
+    {
+        rigid.MovePosition(rigid.position - transform.right * moveSpeed);
+    }
+
+    private void MoveRight()
+    {
+        rigid.MovePosition(rigid.position + transform.right * moveSpeed);
     }
 
     private void Jump()
