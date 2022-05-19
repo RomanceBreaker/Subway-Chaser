@@ -13,7 +13,7 @@ public class Ground_S : MonoBehaviour
     Quaternion Map_Q;
     bool create;
     public float create_time;
-
+    //public float speed;
     void Start()
     {
         Map_Q = Quaternion.Euler(new Vector3(0,0,0));
@@ -25,7 +25,7 @@ public class Ground_S : MonoBehaviour
 
     void Update()
     {
-
+        //GameObject.Find("Train").transform.position += Vector3.forward * Time.deltaTime *speed;
         Create_Ground();
         Remove_Ground();
         Plane_Move();
