@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public Note note;
+    //public Note note;
+    public Note[] notes = new Note[5];
+    //public GameObject[] foods = new GameObject[5];
     public Vector3 startPos;            // 처음 시작 시 spawner position
     public Vector3 currPos;             // update되는 spawner의 random position
 
@@ -32,8 +34,9 @@ public class Spawner : MonoBehaviour
     {
         canShoot = false;
         currPos = startPos + new Vector3(Random.Range(-5f, 5f), Random.Range(-3f, 3f), 0f);
+        int noteIdx = Random.Range(0, notes.Length);
 
-        Note noteTemp = Instantiate(note, noteParent);
+        Note noteTemp = Instantiate(notes[noteIdx], noteParent);
         noteTemp.Init(currPos, hitTrans.localPosition, playerTrans.eulerAngles);
 
         yield return new WaitForSeconds(1.0f);      // 1초마다 생성
