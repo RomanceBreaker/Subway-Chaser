@@ -94,11 +94,18 @@ public class PlayerManager : MonoBehaviour
         note.RayCasting(ray);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        Debug.Log(other.gameObject.tag);
+
+        if (other.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
+        }
+
+        if (other.gameObject.CompareTag("Note"))
+        {
+            Destroy(other.gameObject);
         }
     }
 }

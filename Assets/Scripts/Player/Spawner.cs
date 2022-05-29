@@ -6,7 +6,6 @@ public class Spawner : MonoBehaviour
 {
     //public Note note;
     public Note[] notes = new Note[5];
-    //public GameObject[] foods = new GameObject[5];
     public Vector3 startPos;            // 처음 시작 시 spawner position
     public Vector3 currPos;             // update되는 spawner의 random position
 
