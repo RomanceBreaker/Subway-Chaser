@@ -42,7 +42,8 @@ public class PlayerManager : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))    // 점프 (마우스 우클릭)
         {
-            Jump();
+            //Jump();
+            StartCoroutine(Jump());
         }
         if (Input.GetMouseButtonDown(0))    // 칼 휘둘러서 노트 맞춤 (마우스 좌클릭)
         {
@@ -75,14 +76,26 @@ public class PlayerManager : MonoBehaviour
         rigid.MovePosition(rigid.position + transform.right * moveSpeed);
     }
 
-    private void Jump()
-    {
-        // 점프 몇 번까지 가능하게 할 지?
+    //private void Jump()
+    //{
+    //    // 점프 몇 번까지 가능하게 할 지?
 
+    //    if (!isJumping)
+    //    {
+    //        isJumping = true;
+    //        rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+    //    }
+    //}
+
+    IEnumerator Jump()
+    {
         if (!isJumping)
         {
             isJumping = true;
             rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+
+            yield return new WaitForSeconds(0.5f);
+            isJumping = false;
         }
     }
 
@@ -96,8 +109,6 @@ public class PlayerManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.tag);
-
         if (other.gameObject.CompareTag("Ground"))
         {
             isJumping = false;

@@ -333,7 +333,7 @@ GameObject:
   - component: {fileID: 626254986}
   - component: {fileID: 626254989}
   m_Layer: 0
-  m_Name: Spawner
+  m_Name: SpawnerTemp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -667,7 +667,7 @@ GameObject:
   - component: {fileID: 1178765627}
   - component: {fileID: 1178765628}
   m_Layer: 0
-  m_Name: SpawnerPos
+  m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -706,6 +706,21 @@ MonoBehaviour:
   - {fileID: -5377560385074475753, guid: 641de365fbac17445a27133fa297d6c1, type: 3}
   - {fileID: 1453063692455327243, guid: 4045f84a87fbc8a498e17c81aca4e4dc, type: 3}
   - {fileID: -7430170390258968228, guid: 07b512fdba1780d4b98eda67b03fb7c2, type: 3}
+  - {fileID: 7036841274122080653, guid: 099c8d5823a0d834188cfc08650144dc, type: 3}
+  - {fileID: 8968802208246026617, guid: 9d2277744374a3142a2e1ff2b0cd10bf, type: 3}
+  - {fileID: 9150003357308894880, guid: 6d3bc197d435a8a4faa10559625f3a2f, type: 3}
+  - {fileID: 1052105070120785340, guid: bf7c2f375ba50154bbf4164c55d11fc4, type: 3}
+  - {fileID: 5527871608209146219, guid: bd560d9bf1c4eb4419dea4730cba5b56, type: 3}
+  - {fileID: -45741938854521082, guid: 16a70b12d8cc5724290f9c9ec065143a, type: 3}
+  - {fileID: 4399885159117183685, guid: 90ce2de4dc8889f47a69b8451ef96f32, type: 3}
+  - {fileID: 3752213328527834576, guid: 8558b29069945944ea640505467beb61, type: 3}
+  - {fileID: -8951617092614676035, guid: 2a50d45674a90ff468abaa166cdc0887, type: 3}
+  - {fileID: 1563100437193511295, guid: 4b8ca06e2d64ee94abab365d44d7d7f7, type: 3}
+  - {fileID: 7619605757696995418, guid: 335c91ae0fd569f4d836f256cccff08d, type: 3}
+  - {fileID: 6870182854122622283, guid: eafad220eae6a2a4fbb7c36aec3161c5, type: 3}
+  - {fileID: 7078356741553366216, guid: 3f39570d3e71e6a4ca07f105f849d1f6, type: 3}
+  - {fileID: 8895221953308527775, guid: 2cef4a7d14823224ebb367833174f0ee, type: 3}
+  - {fileID: 2808758591411913005, guid: d3a01f63d7e954b4489806396149d5c0, type: 3}
   startPos: {x: 0, y: 0, z: 0}
   currPos: {x: 0, y: 0, z: 0}
   hitTrans: {fileID: 775721596}
