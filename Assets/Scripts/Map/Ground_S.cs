@@ -16,29 +16,47 @@ public class Ground_S : MonoBehaviour
     bool create;
     public float create_time;
     //public float speed;
+    public Animator animator_train;
+    public Animator animator_camera;
+    bool Ani_end;
 
     float sky_time;
     int sky_num;
     void Start()
     {
-        GameObject.Find("Player").GetComponent<Animation>().Play("Player_Ain");
+        Ani_end = false;
         sky_num = 0;
         sky_time = 3f;
         Map_Q = Quaternion.Euler(new Vector3(0,0,0));
         Ground_List.Add(GameObject.Find("Base_10").gameObject);
         create = true;
         // GameObject.Find("Player").GetComponent<PlayerMovement>().enabled = false;
-        
+     
         StartCoroutine("Sky_Change", sky_time);
     }
 
     void Update()
     {
-        //GameObject.Find("Train").transform.position += Vector3.forward * Time.deltaTime *speed;
-        Create_Ground();
-        Remove_Ground();
-        Plane_Move();
+        if (Ani_end == false)
+        {
+            Debug.Log("false");
+            if (animator_train.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            {
+                Debug.Log("³ª°¡!!!");
+                GameObject.Find("Train").gameObject.SetActive(false);
+                GameObject.Find("Start_Camera").gameObject.SetActive(false);
+                GameObject.Find("Player_Box").gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            Debug.Log("True");
+            Create_Ground();
+            Remove_Ground();
+            Plane_Move();
+        }
     }
+
 
     void Create_Ground()
     {

@@ -10,13 +10,16 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody rigid;
 
+
     private void Start()
     {
         rigid = GetComponent<Rigidbody>();
     }
 
+
     private void FixedUpdate()
     {
+       
         Move();     // 항상 앞으로 이동
 
         if (Input.GetKeyDown(KeyCode.Z))    // 왼쪽 회전
@@ -36,10 +39,12 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("brandish");
             Brandish();
         }
+      
     }
 
     private void Move()
     {
+        Debug.Log("Moving");
         rigid.MovePosition(rigid.position + transform.forward * moveSpeed);
     }
     private void RotateLeft()
