@@ -8,7 +8,9 @@ public class PlayerManager : MonoBehaviour
     public float jumpPower = 2f;
     public bool isJumping = false;
 
+ 
     public Note note;
+    public HPbar hp;
     public Camera mainCamera;
     private Rigidbody rigid;
     private RaycastHit hit;
@@ -18,6 +20,7 @@ public class PlayerManager : MonoBehaviour
         //note = GameObject.FindWithTag("Note").GetComponent<Note>();
         //mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         rigid = GetComponent<Rigidbody>();
+        hp.Init();
     }
 
     private void FixedUpdate()
@@ -117,6 +120,16 @@ public class PlayerManager : MonoBehaviour
         if (other.gameObject.CompareTag("Note"))
         {
             Destroy(other.gameObject);
+
+            if (hp.GetDamage() <= 0)
+            {
+                Die();
+            }
         }
+    }
+
+    public void Die()
+    {
+        Debug.Log("Die");
     }
 }
