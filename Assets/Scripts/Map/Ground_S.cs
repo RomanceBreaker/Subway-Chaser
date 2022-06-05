@@ -46,6 +46,7 @@ public class Ground_S : MonoBehaviour
                 GameObject.Find("Train").gameObject.SetActive(false);
                 GameObject.Find("Start_Camera").gameObject.SetActive(false);
                 GameObject.Find("Player_Box").gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                Ani_end = true;
             }
         }
         else
