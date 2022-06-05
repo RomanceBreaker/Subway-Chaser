@@ -60,7 +60,6 @@ public class OVROverlay : MonoBehaviour
 		ReconstructionPassthrough = OVRPlugin.OverlayShape.ReconstructionPassthrough,
 		SurfaceProjectedPassthrough = OVRPlugin.OverlayShape.SurfaceProjectedPassthrough,
 		Fisheye = OVRPlugin.OverlayShape.Fisheye,
-		KeyboardHandsPassthrough = OVRPlugin.OverlayShape.KeyboardHandsPassthrough,
 	}
 
 	/// <summary>
@@ -168,12 +167,6 @@ public class OVROverlay : MonoBehaviour
 	[Tooltip("When checked, the texture is treated as if the alpha was already premultiplied")]
 	public bool isAlphaPremultiplied = false;
 
-	[Tooltip("When checked, the layer will use bicubic filtering")]
-	public bool useBicubicFiltering = false;
-
-	[Tooltip("When checked, the cubemap will retain the legacy rotation which was rotated 180 degrees around the Y axis comapred to Unity's definition of cubemaps. This setting will be deprecated in the near future, therefore it is recommended to fix the cubemap texture instead.")]
-	public bool useLegacyCubemapRotation = false;
-
 
 	/// <summary>
 	/// Preview the overlay in the editor using a mesh renderer.
@@ -234,7 +227,7 @@ public class OVROverlay : MonoBehaviour
 
 	public int layerId { get; private set; } = 0; // The layer's internal handle in the compositor.
 
-#endregion
+	#endregion
 
 	private static Material tex2DMaterial;
 	private static Material cubeMaterial;
@@ -613,10 +606,6 @@ public class OVROverlay : MonoBehaviour
 			newDesc.LayerFlags |= (int)OVRPlugin.LayerFlags.AndroidSurfaceSwapChain;
 		}
 
-		if (useBicubicFiltering)
-		{
-			newDesc.LayerFlags |= (int)OVRPlugin.LayerFlags.BicubicFiltering;
-		}
 
 		return newDesc;
 	}
@@ -812,7 +801,7 @@ public class OVROverlay : MonoBehaviour
 
 	private void SetupEditorPreview()
 	{
-#if UNITY_EDITOR
+		#if UNITY_EDITOR
 			if (previewInEditor && previewObject == null)
 			{
 				previewObject = new GameObject();
@@ -833,11 +822,10 @@ public class OVROverlay : MonoBehaviour
 	public static bool IsPassthroughShape(OverlayShape shape)
 	{
 		return shape == OverlayShape.ReconstructionPassthrough
-			|| shape == OverlayShape.KeyboardHandsPassthrough
 			|| shape == OverlayShape.SurfaceProjectedPassthrough;
 	}
 
-#region Unity Messages
+	#region Unity Messages
 
 	void Awake()
 	{
@@ -859,7 +847,7 @@ public class OVROverlay : MonoBehaviour
 
 		// Backward compatibility
 		if (rend != null && textures[0] == null)
-			textures[0] = rend.sharedMaterial.mainTexture;
+			textures[0] = rend.material.mainTexture;
 
 		SetupEditorPreview();
 	}
@@ -872,27 +860,20 @@ public class OVROverlay : MonoBehaviour
 		if (OVRManager.OVRManagerinitialized)
 			InitOVROverlay();
 
-#if UNITY_EDITOR
+	#if UNITY_EDITOR
 		if (previewObject != null) {
 			previewObject.SetActive(true);
 		}
-#endif
+	#endif
 	}
 
 	void InitOVROverlay()
 	{
-#if USING_XR_SDK_OPENXR
-		if (!OVRPlugin.UnityOpenXR.Enabled)
+		if (!OVRManager.isHmdPresent)
 		{
-#endif
-			if (!OVRManager.isHmdPresent)
-			{
-				enabled = false;
-				return;
-			}
-#if USING_XR_SDK_OPENXR
+			enabled = false;
+			return;
 		}
-#endif
 
 		constructedOverlayXRDevice = OVRManager.XRDevice.Unknown;
 		if (OVRManager.loadedXRDevice == OVRManager.XRDevice.OpenVR)
@@ -921,11 +902,11 @@ public class OVROverlay : MonoBehaviour
 	void OnDisable()
 	{
 
-#if UNITY_EDITOR
+	#if UNITY_EDITOR
 		if (previewObject != null) {
 			previewObject.SetActive(false);
 		}
-#endif
+	#endif
 
 		if ((gameObject.hideFlags & HideFlags.DontSaveInBuild) != 0)
 			return;
@@ -962,11 +943,11 @@ public class OVROverlay : MonoBehaviour
 		DestroyLayerTextures();
 		DestroyLayer();
 
-#if UNITY_EDITOR
+	#if UNITY_EDITOR
 		if (previewObject != null) {
 			GameObject.DestroyImmediate(previewObject);
 		}
-#endif
+	#endif
 	}
 
 	bool ComputeSubmit(ref OVRPose pose, ref Vector3 scale, ref bool overlay, ref bool headLocked)
@@ -985,18 +966,13 @@ public class OVROverlay : MonoBehaviour
 
 		if (currentOverlayShape == OverlayShape.Cubemap)
 		{
-			if (useLegacyCubemapRotation)
-			{
 #if UNITY_ANDROID && !UNITY_EDITOR
-				pose.orientation = pose.orientation * Quaternion.AngleAxis(180, Vector3.up);
-#endif
-			}
-			else
+			if (OVRPlugin.nativeXrApi != OVRPlugin.XrApi.OpenXR)
 			{
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR
+				//HACK: VRAPI cubemaps assume are yawed 180 degrees relative to LibOVR.
 				pose.orientation = pose.orientation * Quaternion.AngleAxis(180, Vector3.up);
-#endif
 			}
+#endif
 			pose.position = headCamera.transform.position;
 		}
 

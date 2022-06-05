@@ -19,7 +19,7 @@ limitations under the License.
 
 ************************************************************************************/
 
-#if USING_XR_MANAGEMENT && (USING_XR_SDK_OCULUS || USING_XR_SDK_OPENXR)
+#if USING_XR_MANAGEMENT && USING_XR_SDK_OCULUS
 #define USING_XR_SDK
 #endif
 
@@ -38,7 +38,7 @@ using System.IO;
 using System.Diagnostics;
 
 [InitializeOnLoad]
-public class OVRPluginUpdater
+class OVRPluginUpdater
 {
 	enum PluginPlatform
 	{
@@ -63,13 +63,11 @@ public class OVRPluginUpdater
 
 		public bool IsEnabled()
 		{
-			foreach (PluginPlatform platform in Enum.GetValues(typeof(PluginPlatform)))
+			// TODO: Check each individual platform rather than using the Win64 DLL status for the overall package status.
+			string path = "";
+			if (Plugins.TryGetValue(PluginPlatform.Win64, out path))
 			{
-				string path = "";
-				if (Plugins.TryGetValue(platform, out path) && File.Exists(path))
-				{
-					return true;
-				}
+				return File.Exists(path);
 			}
 
 			return false;
@@ -245,7 +243,7 @@ public class OVRPluginUpdater
 		{
 			unityRunningInBatchmode = true;
 		}
-
+ 
 		if (enableAndroidUniversalSupport)
 		{
 			unityVersionSupportsAndroidUniversal = true;
@@ -309,7 +307,7 @@ public class OVRPluginUpdater
 		return GetUtilitiesRootPath() + @"/Plugins";
 	}
 
-	public static string GetUtilitiesRootPath()
+	private static string GetUtilitiesRootPath()
 	{
 		var so = ScriptableObject.CreateInstance(typeof(OVRPluginUpdaterStub));
 		var script = MonoScript.FromScriptableObject(so);
@@ -457,7 +455,7 @@ public class OVRPluginUpdater
 			{
 				// display a dialog to prompt developer to confirm if they want to proceed with OpenXR backend
 				int result = EditorUtility.DisplayDialogComplex("OpenXR Backend",
-					"OpenXR is now fully supported by Oculus. However, some of the functionalities are not supported in the baseline OpenXR spec, which would be provided in our future releases.\n\nIf you depend on the following features in your project, please click Cancel to continue using the legacy backend:\n\n  * Mixed Reality Capture on Rift\n\nNew features, such as Passthrough API, are only supported through the OpenXR backend.\n\nPlease check our release notes for more details.\n\nReminder: you can switch the legacy and OpenXR backends at any time from Oculus > Tools > OpenXR menu options.", "Use OpenXR", "Cancel", "Release Notes");
+					"OpenXR is now fully supported by Oculus. However, some of the functionalities are not supported in the baseline OpenXR spec, which would be provided in our future releases.\n\nIf you depend on the following features in your project, please click Cancel to continue using the legacy backend:\n\n  1. Advanced hand tracking features (collision capsule, input metadata, Thumb0, default handmesh)\n  2. Mixed Reality Capture on Rift\n\nNew features, such as Passthrough API, are only supported through the OpenXR backend.\n\nPlease check our release notes for more details.\n\nReminder: you can switch the legacy and OpenXR backends at any time from Oculus > Tools > OpenXR menu options.", "Use OpenXR", "Cancel", "Release Notes");
 				if (result == 0)
 					break;
 				else if (result == 1)
@@ -607,9 +605,15 @@ public class OVRPluginUpdater
 		}
 	}
 
-
-	private static PluginPackage GetEnabledUtilsPluginPkg()
+	[MenuItem("Oculus/Tools/Disable OVR Utilities Plugin")]
+	private static void AttemptPluginDisable()
 	{
+		if (OVRPluginUpdaterStub.IsInsidePackageDistribution())
+		{
+			UnityEngine.Debug.LogError("Unable to change plugin when using package distribution");
+			return;
+		}
+
 		List<PluginPackage> allUtilsPluginPkgs = GetAllUtilitiesPluginPackages();
 
 		PluginPackage enabledUtilsPluginPkg = null;
@@ -624,31 +628,6 @@ public class OVRPluginUpdater
 				}
 			}
 		}
-
-		return enabledUtilsPluginPkg;
-	}
-
-	const string k_disablePluginMenuStr = "Oculus/Tools/OVR Utilities Plugin/Set OVRPlugin to Package Manager-provided (Disable OVR Utilities Plugin version)";
-	[MenuItem(k_disablePluginMenuStr, true, 102)]
-	private static bool IsDisableOVRPluginMenuEnabled()
-	{
-		//This section controls whether we draw a checkmark next to this menu item (it's currently active...)
-		Menu.SetChecked(k_disablePluginMenuStr, GetEnabledUtilsPluginPkg() == null);
-
-		//And this section controls whether the menu item is enabled (you're allowed to toggle it)
-		return true;
-	}
-
-	[MenuItem(k_disablePluginMenuStr, false, 102)]
-	private static void AttemptPluginDisable()
-	{
-		if (OVRPluginUpdaterStub.IsInsidePackageDistribution())
-		{
-			UnityEngine.Debug.LogError("Unable to change plugin when using package distribution");
-			return;
-		}
-
-		PluginPackage enabledUtilsPluginPkg = GetEnabledUtilsPluginPkg();
 
 		if (enabledUtilsPluginPkg == null)
 		{
@@ -686,7 +665,7 @@ public class OVRPluginUpdater
 		}
 	}
 
-	[MenuItem("Oculus/Tools/OVR Utilities Plugin/Manual Update OVRPlugin (to OVR Utilities version)", false, 0)]
+	[MenuItem("Oculus/Tools/Update OVR Utilities Plugin")]
 	private static void RunPluginUpdate()
 	{
 		if (OVRPluginUpdaterStub.IsInsidePackageDistribution())
@@ -705,14 +684,9 @@ public class OVRPluginUpdater
 		ActivateOVRPluginOpenXR();
 	}
 
-	const string k_setToOpenXRPluginMenuStr = "Oculus/Tools/OVR Utilities Plugin/Set OVRPlugin to OpenXR";
-	[MenuItem(k_setToOpenXRPluginMenuStr, true, 100)]
+	[MenuItem("Oculus/Tools/OpenXR/Switch to OVRPlugin with OpenXR backend", true)]
 	private static bool IsActivateOVRPluginOpenXRMenuEnabled()
 	{
-		//This section controls whether we draw a checkmark next to this menu item (it's currently active...)
-		Menu.SetChecked(k_setToOpenXRPluginMenuStr, IsOVRPluginOpenXRActivated());
-
-		//And this section controls whether the menu item is enabled (you're allowed to toggle it)
 #if !USING_XR_SDK && !REQUIRES_XR_SDK
 		return false;
 #else
@@ -720,7 +694,7 @@ public class OVRPluginUpdater
 #endif
 	}
 
-	[MenuItem(k_setToOpenXRPluginMenuStr, false, 100)]
+	[MenuItem("Oculus/Tools/OpenXR/Switch to OVRPlugin with OpenXR backend")]
 	private static void ActivateOVRPluginOpenXR()
 	{
 		if (!unityVersionSupportsAndroidUniversal)
@@ -893,18 +867,7 @@ public class OVRPluginUpdater
 #endif // !USING_XR_SDK
 	}
 
-	const string k_setToLegacyPluginMenuStr = "Oculus/Tools/OVR Utilities Plugin/Set OVRPlugin to Legacy LibOVR+VRAPI";
-	[MenuItem(k_setToLegacyPluginMenuStr, true, 101)]
-	private static bool IsRestoreStandardOVRPluginMenuEnabled()
-	{
-		//This section controls whether we draw a checkmark next to this menu item (it's currently active...)
-		Menu.SetChecked(k_setToLegacyPluginMenuStr, IsOVRPluginLegacyAPIActivated());
-
-		//And this section controls whether the menu item is enabled (you're allowed to toggle it)
-		return true;
-	}
-
-	[MenuItem(k_setToLegacyPluginMenuStr, false, 101)]
+	[MenuItem("Oculus/Tools/OpenXR/Switch to Legacy OVRPlugin (with LibOVR and VRAPI backends)")]
 	private static void RestoreStandardOVRPlugin()
 	{
 		if (!unityVersionSupportsAndroidUniversal) // sanity check
@@ -1060,7 +1023,18 @@ public class OVRPluginUpdater
 			return false;
 		}
 
-		PluginPackage enabledUtilsPluginPkg = GetEnabledUtilsPluginPkg();
+		List<PluginPackage> allUtilsPluginPkgs = GetAllUtilitiesPluginPackages();
+
+		PluginPackage enabledUtilsPluginPkg = null;
+
+		foreach (PluginPackage pluginPkg in allUtilsPluginPkgs)
+		{
+			if (pluginPkg.IsEnabled())
+			{
+				enabledUtilsPluginPkg = pluginPkg;
+				break;
+			}
+		}
 
 		if (enabledUtilsPluginPkg == null)
 		{
@@ -1068,24 +1042,6 @@ public class OVRPluginUpdater
 		}
 
 		return enabledUtilsPluginPkg.IsAndroidOpenXREnabled();
-	}
-
-	public static bool IsOVRPluginLegacyAPIActivated()
-	{
-		PluginPackage enabledUtilsPluginPkg = GetEnabledUtilsPluginPkg();
-
-		if (enabledUtilsPluginPkg == null)
-		{
-			return false;
-		}
-
-		return enabledUtilsPluginPkg.IsAndroidUniversalEnabled();
-	}
-
-	public static bool IsOVRPluginUnityProvidedActivated()
-	{
-		PluginPackage enabledUtilsPluginPkg = GetEnabledUtilsPluginPkg();
-		return enabledUtilsPluginPkg != null && enabledUtilsPluginPkg.IsBundledPluginPackage();
 	}
 
 	// Separate entry point needed since "-executeMethod" does not support parameters or default parameter values
@@ -1240,8 +1196,8 @@ public class OVRPluginUpdater
 					// Android Universal should only be enabled on supported Unity versions since it can prevent app launch.
 					return false;
 				}
-				else if (!pluginPkg.IsAndroidUniversalEnabled() && pluginPkg.IsAndroidUniversalPresent() &&
-					!pluginPkg.IsAndroidOpenXREnabled() && pluginPkg.IsAndroidOpenXRPresent() &&
+				else if (!pluginPkg.IsAndroidUniversalEnabled() && pluginPkg.IsAndroidUniversalPresent() && 
+					!pluginPkg.IsAndroidOpenXREnabled() && pluginPkg.IsAndroidOpenXRPresent() && 
 					unityVersionSupportsAndroidUniversal)
 				{
 					// Android Universal is present and should be enabled on supported Unity versions since ARM64 config will fail otherwise.

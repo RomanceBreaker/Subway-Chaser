@@ -92,8 +92,6 @@ public class OVRSkeleton : MonoBehaviour
 	private bool _updateRootScale = false;
 	[SerializeField]
 	private bool _enablePhysicsCapsules = false;
-	[SerializeField]
-	private bool _applyBoneTranslations = true;
 
 	private GameObject _bonesGO;
 	private GameObject _bindPosesGO;
@@ -177,8 +175,6 @@ public class OVRSkeleton : MonoBehaviour
 		}
 	}
 
-	protected virtual Transform GetBoneTransform(BoneId boneId) => null;
-
 	protected virtual void InitializeBones()
 	{
 		bool flipX = (_skeletonType == SkeletonType.HandLeft || _skeletonType == SkeletonType.HandRight);
@@ -204,24 +200,10 @@ public class OVRSkeleton : MonoBehaviour
 			bone.Id = (OVRSkeleton.BoneId)_skeleton.Bones[i].Id;
 			bone.ParentBoneIndex = _skeleton.Bones[i].ParentBoneIndex;
 
-			bone.Transform = GetBoneTransform(bone.Id);
-			if (bone.Transform == null)
-			{
-				bone.Transform = new GameObject(BoneLabelFromBoneId(_skeletonType, bone.Id)).transform;
-			}
-
-			var pose = _skeleton.Bones[i].Pose;
-
-			if (_applyBoneTranslations)
-			{
-				bone.Transform.localPosition = flipX
-					? pose.Position.FromFlippedXVector3f()
-					: pose.Position.FromFlippedZVector3f();
-			}
-
-			bone.Transform.localRotation = flipX
-				? pose.Orientation.FromFlippedXQuatf()
-				: pose.Orientation.FromFlippedZQuatf();
+			Transform trans = bone.Transform ??
+			                  (bone.Transform = new GameObject(BoneLabelFromBoneId(_skeletonType, bone.Id)).transform);
+			trans.localPosition = flipX ? _skeleton.Bones[i].Pose.Position.FromFlippedXVector3f() : _skeleton.Bones[i].Pose.Position.FromFlippedZVector3f();
+			trans.localRotation = flipX ? _skeleton.Bones[i].Pose.Orientation.FromFlippedXQuatf() : _skeleton.Bones[i].Pose.Orientation.FromFlippedZQuatf();
 		}
 
 		for (int i = 0; i < _bones.Count; ++i)
@@ -261,8 +243,8 @@ public class OVRSkeleton : MonoBehaviour
 			bindPoseBone.Id = bone.Id;
 			bindPoseBone.ParentBoneIndex = bone.ParentBoneIndex;
 
-			Transform trans = bindPoseBone.Transform ? bindPoseBone.Transform : (bindPoseBone.Transform =
-				new GameObject(BoneLabelFromBoneId(_skeletonType, bindPoseBone.Id)).transform);
+			Transform trans = bindPoseBone.Transform ?? (bindPoseBone.Transform =
+				                  new GameObject(BoneLabelFromBoneId(_skeletonType, bindPoseBone.Id)).transform);
 			trans.localPosition = bone.Transform.localPosition;
 			trans.localRotation = bone.Transform.localRotation;
 		}
@@ -388,20 +370,21 @@ public class OVRSkeleton : MonoBehaviour
 
 			for (var i = 0; i < _bones.Count; ++i)
 			{
-				var boneTransform = _bones[i].Transform;
-				if (boneTransform == null) continue;
-				if (_skeletonType == SkeletonType.HandLeft || _skeletonType == SkeletonType.HandRight)
+				if (_bones[i].Transform != null)
 				{
-					boneTransform.localRotation = data.BoneRotations[i].FromFlippedXQuatf();
-
-					if (_bones[i].Id == BoneId.Hand_WristRoot)
+					if (_skeletonType == SkeletonType.HandLeft || _skeletonType == SkeletonType.HandRight)
 					{
-						boneTransform.localRotation *= wristFixupRotation;
+						_bones[i].Transform.localRotation = data.BoneRotations[i].FromFlippedXQuatf();
+
+						if (_bones[i].Id == BoneId.Hand_WristRoot)
+						{
+							_bones[i].Transform.localRotation *= wristFixupRotation;
+						}
 					}
-				}
-				else
-				{
-					boneTransform.localRotation = data.BoneRotations[i].FromFlippedZQuatf();
+					else
+					{
+						_bones[i].Transform.localRotation = data.BoneRotations[i].FromFlippedZQuatf();
+					}
 				}
 			}
 		}
