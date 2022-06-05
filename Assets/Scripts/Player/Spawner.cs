@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
 
     public Transform hitTrans;
     public Transform playerTrans;
-    public Transform noteParent;        // 하이어라키창에 clone된 note들을 관리하는 parent
+    public Transform noteParent;        // ?�이?�라?�창??clone??note?�을 관리하??parent
 
     private bool canShoot;
 
@@ -38,7 +38,7 @@ public class Spawner : MonoBehaviour
         Note noteTemp = Instantiate(notes[noteIdx], noteParent);
         noteTemp.Init(currPos, hitTrans.localPosition, playerTrans.eulerAngles);
 
-        yield return new WaitForSeconds(1.0f);      // 1초마다 생성
+        yield return new WaitForSeconds(1.0f);      // 1초마???�성
         canShoot = true;
     }
 }
