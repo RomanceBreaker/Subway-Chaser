@@ -9,18 +9,27 @@ public class Ground_S : MonoBehaviour
     public GameObject[] Ground_Normal;
     public GameObject[] Ground_Turn;
     public GameObject[] Ground_Trap;
+    public Material[] Skybox_Mat;
+    public Material a;
     public GameObject Plane;
     Quaternion Map_Q;
     bool create;
     public float create_time;
     //public float speed;
+
+    float sky_time;
+    int sky_num;
     void Start()
     {
+        GameObject.Find("Player").GetComponent<Animation>().Play("Player_Ain");
+        sky_num = 0;
+        sky_time = 3f;
         Map_Q = Quaternion.Euler(new Vector3(0,0,0));
         Ground_List.Add(GameObject.Find("Base_10").gameObject);
         create = true;
-       // GameObject.Find("Player").GetComponent<PlayerMovement>().enabled = false;
-
+        // GameObject.Find("Player").GetComponent<PlayerMovement>().enabled = false;
+        
+        StartCoroutine("Sky_Change", sky_time);
     }
 
     void Update()
@@ -29,7 +38,6 @@ public class Ground_S : MonoBehaviour
         Create_Ground();
         Remove_Ground();
         Plane_Move();
-        
     }
 
     void Create_Ground()
@@ -54,9 +62,19 @@ public class Ground_S : MonoBehaviour
         }
         
     }
+    IEnumerator Sky_Change(float sky_time) //硅版 函版
+    {
+        yield return new WaitForSeconds(sky_time);
+        sky_num++;
+        if (sky_num >= 5)
+            sky_num = 0;
+        RenderSettings.skybox = Skybox_Mat[sky_num];
 
+        StartCoroutine("Sky_Change", sky_time);
 
-    IEnumerator Ground_Create(float create_time) //顶 罚待 积己 内风凭
+    }
+
+        IEnumerator Ground_Create(float create_time) //顶 罚待 积己 内风凭
     {
    
         yield return new WaitForSeconds(create_time);
