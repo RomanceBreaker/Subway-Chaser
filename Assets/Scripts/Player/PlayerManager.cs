@@ -9,8 +9,7 @@ public class PlayerManager : MonoBehaviour
     public bool isJumping = false;
 
  
-    public Note note;
-    public HPbar hp;
+    //public HPbar hp;
     public Camera mainCamera;
     private Rigidbody rigid;
     private RaycastHit hit;
@@ -20,7 +19,7 @@ public class PlayerManager : MonoBehaviour
         //note = GameObject.FindWithTag("Note").GetComponent<Note>();
         //mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         rigid = GetComponent<Rigidbody>();
-        hp.Init();
+        //hp.Init();
     }
 
     private void FixedUpdate()
@@ -106,8 +105,21 @@ public class PlayerManager : MonoBehaviour
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(transform.position, transform.forward * 1000, Color.red);
+        
+        RayCasting(ray);
+    }
 
-        note.RayCasting(ray);
+    public void RayCasting(Ray ray)
+    {
+        RaycastHit hitObj;
+
+        if (Physics.Raycast(ray, out hitObj, Mathf.Infinity))
+        {
+            if (hitObj.collider.tag == "Note")
+            {
+                Destroy(hitObj.collider.gameObject);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -120,11 +132,12 @@ public class PlayerManager : MonoBehaviour
         if (other.gameObject.CompareTag("Note"))
         {
             Destroy(other.gameObject);
+            Debug.Log("hit!");
 
-            if (hp.GetDamage() <= 0)
-            {
-                Die();
-            }
+            //if (hp.GetDamage() <= 0)
+            //{
+            //    Die();
+            //}
         }
     }
 
