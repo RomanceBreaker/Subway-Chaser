@@ -4,22 +4,20 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public int score = 0;
     public float moveSpeed = 5f;
     public float jumpPower = 2f;
     public bool isJumping = false;
 
- 
-    //public HPbar hp;
+    public HPbar hp;
     public Camera mainCamera;
     private Rigidbody rigid;
     private RaycastHit hit;
 
     private void Start()
     {
-        //note = GameObject.FindWithTag("Note").GetComponent<Note>();
-        //mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         rigid = GetComponent<Rigidbody>();
-        //hp.Init();
+        hp.Init();
     }
 
     private void FixedUpdate()
@@ -118,6 +116,7 @@ public class PlayerManager : MonoBehaviour
             if (hitObj.collider.tag == "Note")
             {
                 Destroy(hitObj.collider.gameObject);
+                score += 100;
             }
         }
     }
@@ -132,17 +131,23 @@ public class PlayerManager : MonoBehaviour
         if (other.gameObject.CompareTag("Note"))
         {
             Destroy(other.gameObject);
-            Debug.Log("hit!");
 
-            //if (hp.GetDamage() <= 0)
-            //{
-            //    Die();
-            //}
+            if (hp.GetDamage() <= 0)
+            {
+                Die();
+            }
         }
     }
 
     public void Die()
     {
         Debug.Log("Die");
+        PlayerPrefs.SetInt("A", score);
+        Debug.Log("Current : " + score);
+
+
+        Debug.Log("Record : " + PlayerPrefs.GetInt("A"));
+
+        // 게임 종료 & end UI
     }
 }
