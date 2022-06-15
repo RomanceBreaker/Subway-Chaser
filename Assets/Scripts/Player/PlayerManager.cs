@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public int gamerID;
     public int score = 0;
     public float moveSpeed = 5f;
     public float jumpPower = 2f;
@@ -16,22 +17,15 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
+        gamerID = Random.Range(-2147483648, 2147483647);
         rigid = GetComponent<Rigidbody>();
         hp.Init();
     }
 
     private void FixedUpdate()
     {
-        Move();     // 항상 앞으로 이동
+        Move();     // 항상 앞으로 이동`
 
-        if (Input.GetKeyDown(KeyCode.Z))    // 왼쪽 회전
-        {
-            RotateLeft();
-        }
-        if (Input.GetKeyDown(KeyCode.C))    // 오른쪽 회전
-        {
-            RotateRight();
-        }
         if (Input.GetKey(KeyCode.A))    // 왼쪽 이동
         {
             MoveLeft();
@@ -44,6 +38,18 @@ public class PlayerManager : MonoBehaviour
         {
             //Jump();
             StartCoroutine(Jump());
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))    // 왼쪽 회전
+        {
+            RotateLeft();
+        }
+        if (Input.GetKeyDown(KeyCode.C))    // 오른쪽 회전
+        {
+            RotateRight();
         }
         if (Input.GetMouseButtonDown(0))    // 칼 휘둘러서 노트 맞춤 (마우스 좌클릭)
         {
@@ -58,12 +64,19 @@ public class PlayerManager : MonoBehaviour
 
     private void RotateLeft()
     {
+        Debug.Log(rigid.rotation);
+
         rigid.rotation = rigid.rotation * Quaternion.Euler(0f, -90.0f, 0f);
+
+        Debug.Log("-> left : " + rigid.rotation.eulerAngles);
     }
 
     private void RotateRight()
     {
+        Debug.Log(rigid.rotation);
+
         rigid.rotation = rigid.rotation * Quaternion.Euler(0f, 90.0f, 0f);
+        Debug.Log("-> right : " + rigid.rotation.eulerAngles);
     }
 
     private void MoveLeft()
@@ -141,13 +154,13 @@ public class PlayerManager : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("Die");
-        PlayerPrefs.SetInt("A", score);
-        Debug.Log("Current : " + score);
+        //Debug.Log("Die");
+        PlayerPrefs.SetInt(gamerID.ToString(), score);
+        //Debug.Log(gamerID + " : " + score);
 
 
-        Debug.Log("Record : " + PlayerPrefs.GetInt("A"));
-
-        // 게임 종료 & end UI
+        //Debug.Log("Record : " + PlayerPrefs.GetInt(gamerID.ToString()));
+        //Time.timeScale = 0;     // 일시정지
+        // end UI
     }
 }

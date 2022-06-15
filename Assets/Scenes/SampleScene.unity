@@ -872,6 +872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9f7448eefc25f479354c5e356f8956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gamerID: 0
   score: 0
   moveSpeed: 0.15
   jumpPower: 4
@@ -3558,7 +3559,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7c12cbb467a354741b3e59a904638c9d, type: 2}
   a: {fileID: 0}
   Plane: {fileID: 563720401}
-  create_time: 3
+  create_time: 2.5
   animator_train: {fileID: 1088571954}
   animator_camera: {fileID: 1396730309}
 --- !u!4 &2015801043
