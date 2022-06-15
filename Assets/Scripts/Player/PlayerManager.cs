@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
 
     public HPbar hp;
     public Camera mainCamera;
+    public Ranking ranking;
     private Rigidbody rigid;
     private RaycastHit hit;
 
@@ -64,19 +65,12 @@ public class PlayerManager : MonoBehaviour
 
     private void RotateLeft()
     {
-        Debug.Log(rigid.rotation);
-
         rigid.rotation = rigid.rotation * Quaternion.Euler(0f, -90.0f, 0f);
-
-        Debug.Log("-> left : " + rigid.rotation.eulerAngles);
     }
 
     private void RotateRight()
     {
-        Debug.Log(rigid.rotation);
-
         rigid.rotation = rigid.rotation * Quaternion.Euler(0f, 90.0f, 0f);
-        Debug.Log("-> right : " + rigid.rotation.eulerAngles);
     }
 
     private void MoveLeft()
@@ -154,13 +148,14 @@ public class PlayerManager : MonoBehaviour
 
     public void Die()
     {
-        //Debug.Log("Die");
-        PlayerPrefs.SetInt(gamerID.ToString(), score);
+        Debug.Log("Die");
         //Debug.Log(gamerID + " : " + score);
 
-
+        //PlayerPrefs.SetInt(gamerID.ToString(), score);
         //Debug.Log("Record : " + PlayerPrefs.GetInt(gamerID.ToString()));
-        //Time.timeScale = 0;     // 일시정지
+
+        ranking.ScoreSet(score, gamerID.ToString());
+        Time.timeScale = 0;     // 일시정지
         // end UI
     }
 }
