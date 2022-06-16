@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 public class UI_Test_S : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -24,4 +25,20 @@ public class UI_Test_S : MonoBehaviour
     {
         Debug.Log("Back_To_MainMonu");
     }
+
+    public void Image_Button()
+    {
+        if (GameObject.Find("Player").gameObject.transform.GetChild(1).transform.GetChild(0).gameObject.activeSelf == true)
+        {
+            GameObject.Find("Player").gameObject.transform.GetChild(1).transform.GetChild(0).gameObject.SetActive(false);
+        }s
+        else
+            GameObject.Find("Player").gameObject.transform.GetChild(1).transform.GetChild(0).gameObject.SetActive(true);
+    }
+
+    public void Lobby_to_Start()
+    {
+        SceneManager.LoadScene("Game_Start");
+    }
 }
+
