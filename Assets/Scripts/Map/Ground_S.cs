@@ -17,7 +17,6 @@ public class Ground_S : MonoBehaviour
     public float create_time;
     //public float speed;
     public Animator animator_train;
-    public Animator animator_camera;
     bool Ani_end;
 
     float sky_time;
@@ -26,7 +25,7 @@ public class Ground_S : MonoBehaviour
     {
         Ani_end = false;
         sky_num = 0;
-        sky_time = 3f;
+        sky_time = 50f;
         Map_Q = Quaternion.Euler(new Vector3(0,0,0));
         Ground_List.Add(GameObject.Find("Base_10").gameObject);
         create = true;
