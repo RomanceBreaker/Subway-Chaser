@@ -1875,7 +1875,7 @@ Transform:
   m_GameObject: {fileID: 2087232609}
   m_LocalRotation: {x: -0.7071068, y: -0.00000006181724, z: -2.7021175e-15, w: 0.70710677}
   m_LocalPosition: {x: 1.0451287, y: 0.46625826, z: 0.037389286}
-  m_LocalScale: {x: 2.54, y: 2.54, z: 2.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2087663683}
@@ -1913,7 +1913,7 @@ Transform:
   m_GameObject: {fileID: 2087232613}
   m_LocalRotation: {x: -0.50000036, y: 0.49999967, z: 0.49999967, w: 0.50000036}
   m_LocalPosition: {x: -0, y: 0.5408796, z: -0.000000017595404}
-  m_LocalScale: {x: 2.5399997, y: 2.5399997, z: 2.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2087663691}
@@ -2521,8 +2521,6 @@ MonoBehaviour:
   moveSpeed: 0.2
   jumpPower: 2
   isJumping: 0
-  note: {fileID: 2248027629296091661, guid: f9f2fde15bc47bb459dbdaf6330f4746, type: 3}
-  hp: {fileID: 111790057}
   mainCamera: {fileID: 164936610}
 --- !u!95 &2096748453
 Animator:

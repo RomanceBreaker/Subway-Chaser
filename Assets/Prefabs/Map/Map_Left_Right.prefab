@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3545690092178901746}
   - component: {fileID: 5062293974193126726}
   - component: {fileID: 8597394856714581136}
+  - component: {fileID: 12822020580967333}
   m_Layer: 0
   m_Name: Rail (1)
   m_TagString: Untagged
@@ -83,6 +84,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &12822020580967333
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3752966680295103313}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.674071, y: 0.1470542, z: 8.000003}
+  m_Center: {x: -0.0000027418143, y: 0.07071321, z: -3.999998}
 --- !u!1 &5025300418773511359
 GameObject:
   m_ObjectHideFlags: 0

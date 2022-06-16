@@ -38,7 +38,7 @@ public class Ground_S : MonoBehaviour
     {
         if (Ani_end == false)
         {
-            Debug.Log("false");
+            //Debug.Log("false");
             if (animator_train.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
             {
                 Debug.Log("³ª°¡!!!");
@@ -50,7 +50,7 @@ public class Ground_S : MonoBehaviour
         }
         else
         {
-            Debug.Log("True");
+            //Debug.Log("True");
             Create_Ground();
             Remove_Ground();
             Plane_Move();
