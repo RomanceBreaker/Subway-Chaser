@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - Trigger_Zone
+  - Note
+  - Water
   layers:
   - Default
   - TransparentFX
