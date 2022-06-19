@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public int gamerID;
+    public string ID;
     public int score = 0;
     public float moveSpeed = 5f;
     public float jumpPower = 2f;
@@ -13,12 +13,15 @@ public class PlayerManager : MonoBehaviour
     public HPbar hp;
     public Camera mainCamera;
     public Ranking ranking;
+    public GamerID gamerID;
     private Rigidbody rigid;
     private RaycastHit hit;
 
     private void Start()
     {
-        gamerID = Random.Range(-2147483648, 2147483647);
+        ID = GamerID.GetID();
+        Debug.Log(ID);
+
         rigid = GetComponent<Rigidbody>();
         hp.Init();
     }
@@ -154,7 +157,7 @@ public class PlayerManager : MonoBehaviour
         //PlayerPrefs.SetInt(gamerID.ToString(), score);
         //Debug.Log("Record : " + PlayerPrefs.GetInt(gamerID.ToString()));
 
-        ranking.ScoreSet(score, gamerID.ToString());
+        ranking.ScoreSet(score, ID);
         Time.timeScale = 0;     // 일시정지
         // end UI
     }
