@@ -1,13 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Ranking : MonoBehaviour
 {
     private int[] bestScore = new int[5];
     private string[] bestName = new string[5];
 
-    public void ScoreSet(int currentScore, string currentName)
+    public TextMeshProUGUI scoreText;
+
+    void Start()
+    {
+        scoreText = GetComponent<TMPro.TextMeshProUGUI>();
+        ShowScore();
+    }
+
+    public void SetScore(int currentScore, string currentName)
     {
         Debug.Log("Set Start!");
 
@@ -42,5 +51,18 @@ public class Ranking : MonoBehaviour
             Debug.Log(i + " Score : " + PlayerPrefs.GetInt(i + "BestScore"));
             Debug.Log(i + " Name : " + PlayerPrefs.GetString(i + "BestName"));
         }
+    }
+
+    public void ShowScore()
+    {
+        string tempText = "";
+
+        for (int i = 0; i < 5; i++)
+        {
+            tempText += "Name : " + PlayerPrefs.GetString(i + "BestName") + "\n";
+            tempText += "Score : " + PlayerPrefs.GetInt(i + "BestScore") + "\n\n";
+        }
+
+        scoreText.text = tempText;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -128,7 +129,6 @@ public class PlayerManager : MonoBehaviour
             {
                 Destroy(hitObj.collider.gameObject);
                 score += 100;
-                Debug.Log(score);
                 scoreText.UpdateScore(score);
             }
         }
@@ -160,7 +160,9 @@ public class PlayerManager : MonoBehaviour
         //PlayerPrefs.SetInt(gamerID.ToString(), score);
         //Debug.Log("Record : " + PlayerPrefs.GetInt(gamerID.ToString()));
 
-        ranking.ScoreSet(score, ID);
+        ranking.SetScore(score, ID);
+        //ranking.ShowScore();
+        SceneManager.LoadScene("Ranking");
         Time.timeScale = 0;     // 일시정지
         // end UI
     }
