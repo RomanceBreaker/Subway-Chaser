@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
     public bool isJumping = false;
 
     public HPbar hp;
+    public Score scoreText;
     public Camera mainCamera;
     public Ranking ranking;
     public GamerID gamerID;
@@ -127,6 +128,8 @@ public class PlayerManager : MonoBehaviour
             {
                 Destroy(hitObj.collider.gameObject);
                 score += 100;
+                Debug.Log(score);
+                scoreText.UpdateScore(score);
             }
         }
     }
