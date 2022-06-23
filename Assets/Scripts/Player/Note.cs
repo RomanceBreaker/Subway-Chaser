@@ -6,7 +6,7 @@ public class Note : MonoBehaviour
 {
     public float gravity = 9.8f;
     public float firingAngle = 45.0f;
-    private float noteSpeed = 0.7f;
+    private float noteSpeed = 0.5f;
 
     public Vector3 startPos;
     public Vector3 endPos;
@@ -53,4 +53,16 @@ public class Note : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    public void RayCasting(Ray ray)
+    {
+        RaycastHit hitObj;
+
+        if (Physics.Raycast(ray, out hitObj, Mathf.Infinity))
+        {
+            if (hitObj.collider.tag == "Note")
+            {
+                Destroy(hitObj.collider.gameObject);
+            }
+        }
+    }
 }

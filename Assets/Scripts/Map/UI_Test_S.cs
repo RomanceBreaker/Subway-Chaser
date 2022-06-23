@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 public class UI_Test_S : MonoBehaviour
 {
-    // Start is called before the first frame update
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -24,4 +24,21 @@ public class UI_Test_S : MonoBehaviour
     {
         Debug.Log("Back_To_MainMonu");
     }
+
+    public void Image_Button()
+    {
+        if (GameObject.Find("Player").gameObject.transform.GetChild(1).transform.GetChild(0).gameObject.activeSelf == true)
+        {
+            GameObject.Find("Player").gameObject.transform.GetChild(1).transform.GetChild(0).gameObject.SetActive(false);
+        }
+        else
+            GameObject.Find("Player").gameObject.transform.GetChild(1).transform.GetChild(0).gameObject.SetActive(true);
+    }
+
+    public void Lobby_to_Start()
+    {
+        //DontDestroyOnLoad(GetComponent<Player_S>().take_item);
+        SceneManager.LoadScene("Game_Start");
+    }
 }
+

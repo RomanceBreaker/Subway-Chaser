@@ -17,16 +17,19 @@ public class Ground_S : MonoBehaviour
     public float create_time;
     //public float speed;
     public Animator animator_train;
-    public Animator animator_camera;
+    public Animation animator_player;
     bool Ani_end;
 
     float sky_time;
     int sky_num;
     void Start()
     {
+        Debug.Log("Reloag 테스트");
+        animator_player = GetComponent<Animation>();
+        animator_player.Play("Start_Camera_Ani");
         Ani_end = false;
         sky_num = 0;
-        sky_time = 3f;
+        sky_time = 50f;
         Map_Q = Quaternion.Euler(new Vector3(0,0,0));
         Ground_List.Add(GameObject.Find("Base_10").gameObject);
         create = true;
@@ -39,7 +42,7 @@ public class Ground_S : MonoBehaviour
     {
         if (Ani_end == false)
         {
-            //Debug.Log("false");
+            Debug.Log("false");
             if (animator_train.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
             {
                 Debug.Log("나가!!!");
@@ -51,7 +54,7 @@ public class Ground_S : MonoBehaviour
         }
         else
         {
-            //Debug.Log("True");
+            Debug.Log("True");
             Create_Ground();
             Remove_Ground();
             Plane_Move();
