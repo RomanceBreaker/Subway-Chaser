@@ -10,6 +10,7 @@ public class Start_S : MonoBehaviour
     public float start_time2;
     void Start()
     {
+        Debug.Log("½ºÅ¸Æ®!@#");
         start_window = true;
         start_window2 = true;
         StartCoroutine("Start_Window", start_time);

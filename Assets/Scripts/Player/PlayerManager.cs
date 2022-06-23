@@ -20,7 +20,7 @@ public class PlayerManager : MonoBehaviour
     {
         gamerID = Random.Range(-2147483648, 2147483647);
         rigid = GetComponent<Rigidbody>();
-        hp.Init();
+        //hp.Init();
     }
 
     private void FixedUpdate()
@@ -138,11 +138,11 @@ public class PlayerManager : MonoBehaviour
         if (other.gameObject.CompareTag("Note"))
         {
             Destroy(other.gameObject);
-
+            /*
             if (hp.GetDamage() <= 0)
             {
                 Die();
-            }
+            }*/
         }
     }
 
