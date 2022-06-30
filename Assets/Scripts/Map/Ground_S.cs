@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Ground_S : MonoBehaviour
 {
-    List<GameObject> Ground_List = new List<GameObject>(); //¶¥ List, ¶¥ Áö¿ì±â ¿ëµµ
-    List<GameObject> Trap_List = new List<GameObject>(); //¶¥ List, ¶¥ Áö¿ì±â ¿ëµµ
+    List<GameObject> Ground_List = new List<GameObject>(); //ë•… List, ë•… ì§€ìš°ê¸° ìš©ë„
+    List<GameObject> Trap_List = new List<GameObject>(); //ë•… List, ë•… ì§€ìš°ê¸° ìš©ë„
     public GameObject[] Ground_Normal;
     public GameObject[] Ground_Turn;
     public GameObject[] Ground_Trap;
@@ -23,7 +23,7 @@ public class Ground_S : MonoBehaviour
     int sky_num;
     void Start()
     {
-        Debug.Log("Reloag Å×½ºÆ®");
+        Debug.Log("Reloag í…ŒìŠ¤íŠ¸");
         Ani_end = false;
         sky_num = 0;
         sky_time = 50f;
@@ -42,7 +42,7 @@ public class Ground_S : MonoBehaviour
             Debug.Log("false");
             if (animator_train.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
             {
-                Debug.Log("³ª°¡!!!");
+                Debug.Log("ë‚˜ê°€!!!");
                 GameObject.Find("Train").gameObject.SetActive(false);
                 GameObject.Find("Start_Camera").gameObject.SetActive(false);
                 GameObject.Find("Player_Box").gameObject.transform.GetChild(0).gameObject.SetActive(true);
@@ -81,7 +81,7 @@ public class Ground_S : MonoBehaviour
         }
         
     }
-    IEnumerator Sky_Change(float sky_time) //¹è°æ º¯°æ
+    IEnumerator Sky_Change(float sky_time) //ë°°ê²½ ë³€ê²½
     {
         yield return new WaitForSeconds(sky_time);
         sky_num++;
@@ -93,7 +93,7 @@ public class Ground_S : MonoBehaviour
 
     }
 
-        IEnumerator Ground_Create(float create_time) //¶¥ ·£´ı »ı¼º ÄÚ·çÆ¾
+        IEnumerator Ground_Create(float create_time) //ë•… ëœë¤ ìƒì„± ì½”ë£¨í‹´
     {
    
         yield return new WaitForSeconds(create_time);
@@ -101,7 +101,7 @@ public class Ground_S : MonoBehaviour
         float trap_x = Random.Range(-2.5f, 2.5f);
         float trap_z = Random.Range(-2.5f, 2.5f);
 
-        if (Straight_or_Turn < 3) //Á÷Áø ºÙÀÌ±â
+        if (Straight_or_Turn < 3) //ì§ì§„ ë¶™ì´ê¸°
         {
 
             Debug.Log("Go");
@@ -141,7 +141,7 @@ public class Ground_S : MonoBehaviour
         else
         {
 
-            if (Map_Q == Quaternion.identity) //0,0,0 Áï GoÀÎ »óÅÂ
+            if (Map_Q == Quaternion.identity) //0,0,0 ì¦‰ Goì¸ ìƒíƒœ
             {
                 int Turn_index = Random.Range(0, 2);
                 if (Turn_index == 0) //Go_Left
@@ -179,7 +179,7 @@ public class Ground_S : MonoBehaviour
 
             }
 
-            else if (Map_Q == Quaternion.Euler(new Vector3(0, -90, 0))) //0,-90,0 Áï, LeftÀÎ »óÅÂ
+            else if (Map_Q == Quaternion.Euler(new Vector3(0, -90, 0))) //0,-90,0 ì¦‰, Leftì¸ ìƒíƒœ
             {
                 Debug.Log("Left_RIght");
                 Ground_List.Add(Instantiate(Ground_Turn[3],
@@ -195,7 +195,7 @@ public class Ground_S : MonoBehaviour
                 Map_Q = Quaternion.Euler(new Vector3(0, 0, 0));
 
             }
-            else if (Map_Q == Quaternion.Euler(new Vector3(0, 90, 0))) //0,-0,0 Áï, RightÀÎ »óÅÂ
+            else if (Map_Q == Quaternion.Euler(new Vector3(0, 90, 0))) //0,-0,0 ì¦‰, Rightì¸ ìƒíƒœ
             {
                 Debug.Log("Right_Left");
 
