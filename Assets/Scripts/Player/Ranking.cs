@@ -13,15 +13,14 @@ public class Ranking : MonoBehaviour
     void Start()
     {
         scoreText = GetComponent<TMPro.TextMeshProUGUI>();
-        ShowScore();
     }
 
-    public void SetScore(int currentScore, string currentName)
+    public void SetScore(string currName, int currScore)
     {
         Debug.Log("Set Start!");
 
-        PlayerPrefs.SetString("CurrentPlayerName", currentName);
-        PlayerPrefs.SetInt("CurrentPlayerScore", currentScore);
+        PlayerPrefs.SetString("CurrentPlayerName", currName);
+        PlayerPrefs.SetInt("CurrentPlayerScore", currScore);
 
         int tempScore = 0;
         string tempName = "";
@@ -31,18 +30,18 @@ public class Ranking : MonoBehaviour
             bestScore[i] = PlayerPrefs.GetInt(i + "BestScore");
             bestName[i] = PlayerPrefs.GetString(i + "BestName");
 
-            while (bestScore[i] < currentScore)
+            while (bestScore[i] < currScore)
             {
                 tempScore = bestScore[i];
                 tempName = bestName[i];
-                bestScore[i] = currentScore;
-                bestName[i] = currentName;
+                bestScore[i] = currScore;
+                bestName[i] = currName;
 
-                PlayerPrefs.SetInt(i + "BestScore", currentScore);
-                PlayerPrefs.SetString(i.ToString() + "BestName", currentName);
+                PlayerPrefs.SetInt(i + "BestScore", currScore);
+                PlayerPrefs.SetString(i.ToString() + "BestName", currName);
 
-                currentScore = tempScore;
-                currentName = tempName;
+                currScore = tempScore;
+                currName = tempName;
             }
         }
 
@@ -51,16 +50,22 @@ public class Ranking : MonoBehaviour
             Debug.Log(i + " Score : " + PlayerPrefs.GetInt(i + "BestScore"));
             Debug.Log(i + " Name : " + PlayerPrefs.GetString(i + "BestName"));
         }
+
+        ShowScore(currName, currScore);
     }
 
-    public void ShowScore()
+    public void ShowScore(string currName, int currScore)
     {
         string tempText = "";
 
+        tempText += "Current Name : " + currName + "\n";
+        tempText += "Current Score : " + currScore + "\n";
+        tempText += "-----\n\n";
+
         for (int i = 0; i < 5; i++)
         {
-            tempText += "Name : " + PlayerPrefs.GetString(i + "BestName") + "\n";
-            tempText += "Score : " + PlayerPrefs.GetInt(i + "BestScore") + "\n\n";
+            tempText += (i + 1).ToString() + ". Name : " + PlayerPrefs.GetString(i + "BestName") + "\n";
+            tempText += (i + 1).ToString() + ". Score : " + PlayerPrefs.GetInt(i + "BestScore") + "\n\n";
         }
 
         scoreText.text = tempText;

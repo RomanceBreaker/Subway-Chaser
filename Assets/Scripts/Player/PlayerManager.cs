@@ -150,21 +150,26 @@ public class PlayerManager : MonoBehaviour
                 Die();
             }
         }
+
+        if (other.gameObject.CompareTag("Water"))
+        {
+            Debug.Log("Water!");
+            Die();
+        }
     }
 
     public void Die()
     {
         Debug.Log("Die");
         //Debug.Log(gamerID + " : " + score);
-
         //PlayerPrefs.SetInt(gamerID.ToString(), score);
         //Debug.Log("Record : " + PlayerPrefs.GetInt(gamerID.ToString()));
 
-        ranking.SetScore(score, ID);
+        ranking.SetScore(ID, score);
         //ranking.ShowScore();
 
         SceneManager.LoadScene("Ranking");
-        Time.timeScale = 0;     // �Ͻ�����
+        Time.timeScale = 0;
         // end UI
     }
 }
