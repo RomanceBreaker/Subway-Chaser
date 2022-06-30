@@ -1,54 +1,63 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
+    public string ID;
+    public int score = 0;
     public float moveSpeed = 5f;
     public float jumpPower = 2f;
     public bool isJumping = false;
 
- 
-    public Note note;
     public HPbar hp;
+    public Score scoreText;
     public Camera mainCamera;
+    public Ranking ranking;
+    public GamerID gamerID;
     private Rigidbody rigid;
     private RaycastHit hit;
 
     private void Start()
     {
-        //note = GameObject.FindWithTag("Note").GetComponent<Note>();
-        //mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+        ID = GamerID.GetID();
+        Debug.Log(ID);
+
         rigid = GetComponent<Rigidbody>();
-        //hp.Init();
+        hp.Init();
     }
 
     private void FixedUpdate()
     {
-        Move();     // Ç×»ó ¾ÕÀ¸·Î ÀÌµ¿
+        Move();     // ï¿½×»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½`
 
-        if (Input.GetKeyDown(KeyCode.Z))    // ¿ÞÂÊ È¸Àü
-        {
-            RotateLeft();
-        }
-        if (Input.GetKeyDown(KeyCode.C))    // ¿À¸¥ÂÊ È¸Àü
-        {
-            RotateRight();
-        }
-        if (Input.GetKey(KeyCode.A))    // ¿ÞÂÊ ÀÌµ¿
+        if (Input.GetKey(KeyCode.A))    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
         {
             MoveLeft();
         }
-        if (Input.GetKey(KeyCode.D))    // ¿À¸¥ÂÊ ÀÌµ¿
+        if (Input.GetKey(KeyCode.D))    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
         {
             MoveRight();
         }
-        if (Input.GetMouseButtonDown(1))    // Á¡ÇÁ (¸¶¿ì½º ¿ìÅ¬¸¯)
+        if (Input.GetMouseButtonDown(1))    // ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Å¬ï¿½ï¿½)
         {
             //Jump();
             StartCoroutine(Jump());
         }
-        if (Input.GetMouseButtonDown(0))    // Ä® ÈÖµÑ·¯¼­ ³ëÆ® ¸ÂÃã (¸¶¿ì½º ÁÂÅ¬¸¯)
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))    // ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
+        {
+            RotateLeft();
+        }
+        if (Input.GetKeyDown(KeyCode.C))    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
+        {
+            RotateRight();
+        }
+        if (Input.GetMouseButtonDown(0))    // Ä® ï¿½ÖµÑ·ï¿½ï¿½ï¿½ ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Å¬ï¿½ï¿½)
         {
             Brandish();
         }
@@ -81,7 +90,7 @@ public class PlayerManager : MonoBehaviour
 
     //private void Jump()
     //{
-    //    // Á¡ÇÁ ¸î ¹ø±îÁö °¡´ÉÇÏ°Ô ÇÒ Áö?
+    //    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ ï¿½ï¿½?
 
     //    if (!isJumping)
     //    {
@@ -107,7 +116,22 @@ public class PlayerManager : MonoBehaviour
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(transform.position, transform.forward * 1000, Color.red);
 
-        note.RayCasting(ray);
+        RayCasting(ray);
+    }
+
+    public void RayCasting(Ray ray)
+    {
+        RaycastHit hitObj;
+
+        if (Physics.Raycast(ray, out hitObj, Mathf.Infinity))
+        {
+            if (hitObj.collider.tag == "Note")
+            {
+                Destroy(hitObj.collider.gameObject);
+                score += 100;
+                scoreText.UpdateScore(score);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -120,16 +144,27 @@ public class PlayerManager : MonoBehaviour
         if (other.gameObject.CompareTag("Note"))
         {
             Destroy(other.gameObject);
-            /*
+
             if (hp.GetDamage() <= 0)
             {
                 Die();
-            }*/
+            }
         }
     }
 
     public void Die()
     {
         Debug.Log("Die");
+        //Debug.Log(gamerID + " : " + score);
+
+        //PlayerPrefs.SetInt(gamerID.ToString(), score);
+        //Debug.Log("Record : " + PlayerPrefs.GetInt(gamerID.ToString()));
+
+        ranking.SetScore(score, ID);
+        //ranking.ShowScore();
+
+        SceneManager.LoadScene("Ranking");
+        Time.timeScale = 0;     // ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½
+        // end UI
     }
 }
