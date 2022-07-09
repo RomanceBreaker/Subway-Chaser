@@ -51,7 +51,7 @@ public class Ground_S : MonoBehaviour
         }
         else
         {
-            Debug.Log("True");
+            //Debug.Log("True");
             Create_Ground();
             Remove_Ground();
             Plane_Move();

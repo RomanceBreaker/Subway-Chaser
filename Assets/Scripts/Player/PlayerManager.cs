@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
-    public string ID;
-    public int score = 0;
+    //public string ID;
+    //public int score = 0;
     public float moveSpeed = 5f;
     public float jumpPower = 2f;
     public bool isJumping = false;
@@ -15,14 +15,14 @@ public class PlayerManager : MonoBehaviour
     public Score scoreText;
     public Camera mainCamera;
     public Ranking ranking;
-    public GamerID gamerID;
+    //public SettingID settingID;
     private Rigidbody rigid;
     private RaycastHit hit;
 
     private void Start()
     {
-        ID = GamerID.GetID();
-        Debug.Log(ID);
+        IDmanager.ID = SettingID.GetID();
+        Debug.Log(IDmanager.ID);
 
         rigid = GetComponent<Rigidbody>();
         hp.Init();
@@ -128,8 +128,8 @@ public class PlayerManager : MonoBehaviour
             if (hitObj.collider.tag == "Note")
             {
                 Destroy(hitObj.collider.gameObject);
-                score += 100;
-                scoreText.UpdateScore(score);
+                IDmanager.score += 100;
+                scoreText.UpdateScore(IDmanager.score);
             }
         }
     }
@@ -161,15 +161,9 @@ public class PlayerManager : MonoBehaviour
     public void Die()
     {
         Debug.Log("Die");
-        //Debug.Log(gamerID + " : " + score);
-        //PlayerPrefs.SetInt(gamerID.ToString(), score);
-        //Debug.Log("Record : " + PlayerPrefs.GetInt(gamerID.ToString()));
-
-        ranking.SetScore(ID, score);
-        //ranking.ShowScore();
-
         SceneManager.LoadScene("Ranking");
-        Time.timeScale = 0;
+        
+        //Time.timeScale = 0;
         // end UI
     }
 }
