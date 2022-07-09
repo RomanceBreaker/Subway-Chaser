@@ -7,15 +7,20 @@ public class Ranking : MonoBehaviour
 {
     private int[] bestScore = new int[5];
     private string[] bestName = new string[5];
+    private string currName;
+    private int currScore;
 
     public TextMeshProUGUI scoreText;
 
     void Start()
     {
-        scoreText = GetComponent<TMPro.TextMeshProUGUI>();
+        currName = IDmanager.ID;
+        currScore = IDmanager.score;
+
+        SetScore();
     }
 
-    public void SetScore(string currName, int currScore)
+    public void SetScore()
     {
         Debug.Log("Set Start!");
 
@@ -51,10 +56,10 @@ public class Ranking : MonoBehaviour
             Debug.Log(i + " Name : " + PlayerPrefs.GetString(i + "BestName"));
         }
 
-        ShowScore(currName, currScore);
+        ShowScore();
     }
 
-    public void ShowScore(string currName, int currScore)
+    public void ShowScore()
     {
         string tempText = "";
 
@@ -65,7 +70,7 @@ public class Ranking : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             tempText += (i + 1).ToString() + ". Name : " + PlayerPrefs.GetString(i + "BestName") + "\n";
-            tempText += (i + 1).ToString() + ". Score : " + PlayerPrefs.GetInt(i + "BestScore") + "\n\n";
+            tempText += "Score : " + PlayerPrefs.GetInt(i + "BestScore") + "\n\n";
         }
 
         scoreText.text = tempText;

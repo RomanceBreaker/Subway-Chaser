@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GamerID : MonoBehaviour
+public class SettingID : MonoBehaviour
 {
     private const string CHARS =
          "0123456789abcdefghijklmnopqrstuvwxyz";
