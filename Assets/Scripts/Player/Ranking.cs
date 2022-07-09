@@ -14,7 +14,6 @@ public class Ranking : MonoBehaviour
 
     void Start()
     {
-        scoreText = GetComponent<TMPro.TextMeshProUGUI>();
         currName = IDmanager.ID;
         currScore = IDmanager.score;
 
@@ -71,7 +70,7 @@ public class Ranking : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             tempText += (i + 1).ToString() + ". Name : " + PlayerPrefs.GetString(i + "BestName") + "\n";
-            tempText += (i + 1).ToString() + ". Score : " + PlayerPrefs.GetInt(i + "BestScore") + "\n\n";
+            tempText += "Score : " + PlayerPrefs.GetInt(i + "BestScore") + "\n\n";
         }
 
         scoreText.text = tempText;

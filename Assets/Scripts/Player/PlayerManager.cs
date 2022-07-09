@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
@@ -13,8 +14,9 @@ public class PlayerManager : MonoBehaviour
 
     public HPbar hp;
     public Score scoreText;
+    //public Ranking ranking;
+    public GameObject scoreBox;
     public Camera mainCamera;
-    public Ranking ranking;
     //public SettingID settingID;
     private Rigidbody rigid;
     private RaycastHit hit;
@@ -161,7 +163,8 @@ public class PlayerManager : MonoBehaviour
     public void Die()
     {
         Debug.Log("Die");
-        SceneManager.LoadScene("Ranking");
+        //SceneManager.LoadScene("Ranking");
+        scoreBox.SetActive(true);
         
         //Time.timeScale = 0;
         // end UI
