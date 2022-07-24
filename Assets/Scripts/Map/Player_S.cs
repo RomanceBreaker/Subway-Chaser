@@ -74,6 +74,11 @@ public class Player_S : MonoBehaviour
         }
     }
 
+    public void ReturnMove()
+    {
+        rigid.MovePosition(new Vector3(10f, 2f, 3f));
+    }
+
     private void Move()
     {
         rigid.MovePosition(rigid.position + transform.forward * moveSpeed);
