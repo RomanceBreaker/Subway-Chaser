@@ -22,13 +22,13 @@ public class Ground_S : MonoBehaviour
     float sky_time;
     int sky_num;
     void Start()
-    {
+    {/*
         Debug.Log(GameObject.Find("Sphere").name);
         GameObject.Find("Sphere").transform.position = GameObject.Find("Player_Box").transform
             .GetChild(0).transform.position;
         GameObject.Find("Sphere").transform.parent = GameObject.Find("Player_Box").transform
             .GetChild(0).transform;
-        
+       */ 
         Ani_end = false;
         sky_num = 0;
         sky_time = 50f;
