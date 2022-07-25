@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI/Ranking.unity
     guid: c82f81c0487a30443a5ed24cec2cf3af
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: ba49f45ae9e391f4cb69cfc053179821
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 3be39083608450a439e49eeeb5ce535c, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 2dab127da02ab3548b29c3e5dadaa55d, type: 2}

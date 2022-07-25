@@ -20,7 +20,9 @@ public class PlayerManager : MonoBehaviour
     //public SettingID settingID;
     private Rigidbody rigid;
     private RaycastHit hit;
-
+    public AudioSource attack_a;
+    public AudioSource swing_a;
+    
     private void Start()
     {
         IDmanager.ID = SettingID.GetID();

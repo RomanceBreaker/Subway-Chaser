@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class UI_Test_S : MonoBehaviour
 {
-
+    public bool Next;
     void Start()
     {
-        
+        Next = false;
     }
 
     void Update()
@@ -38,6 +38,7 @@ public class UI_Test_S : MonoBehaviour
     public void Lobby_to_Start()
     {
         //DontDestroyOnLoad(GetComponent<Player_S>().take_item);
+        Next = true;
         SceneManager.LoadScene("Game_Start");
     }
 }

@@ -11,6 +11,7 @@ public class Player_S : MonoBehaviour
     void Start()
     {
         charRigidbody = GetComponent<Rigidbody>();
+        //take_item = null;
     }
 
     void Update()
@@ -19,9 +20,12 @@ public class Player_S : MonoBehaviour
 
         float hAxis = Input.GetAxisRaw("Horizontal");
         float vAxis = Input.GetAxisRaw("Vertical");
-
+        Debug.Log("hAxis:");
+        Debug.Log(hAxis);
+        Debug.Log("vAxis");
+        Debug.Log(vAxis);
         Vector3 inputDir = new Vector3(hAxis, 0, vAxis).normalized;
-
+        Debug.Log(inputDir);
         charRigidbody.velocity = inputDir * moveSpeed;
 
         if(Input.GetKeyDown(KeyCode.Z)){
