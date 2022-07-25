@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class UI_S : MonoBehaviour
 {
     bool pause;
+    public AudioSource audio_s;
+    public AudioSource bgm_s;
 
     void Start()
     {
@@ -17,8 +19,10 @@ public class UI_S : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            audio_s.Play();
             if (pause == false) //퍼즈를 걸겠다
             {
+                bgm_s.Pause();
                 Time.timeScale = 0f;
                 pause = true;
                 this.transform.GetChild(0).gameObject.SetActive(true);
@@ -28,6 +32,8 @@ public class UI_S : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
+            bgm_s.UnPause();
+            audio_s.Play();
             Time.timeScale = 0f;
             this.transform.GetChild(1).gameObject.SetActive(true);
         }
@@ -41,11 +47,14 @@ public class UI_S : MonoBehaviour
     
     public void Game_Main()
     {
+        Time.timeScale = 1f;
+        audio_s.Play();
         SceneManager.LoadScene("Lobby");
     }
 
     public void Game_Resume()
     {
+        audio_s.Play();
         Time.timeScale = 1f;
         pause = false;
         this.transform.GetChild(0).gameObject.SetActive(false);
@@ -54,7 +63,10 @@ public class UI_S : MonoBehaviour
 
     public void Gmae_Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
+        audio_s.Play();
+        SceneManager.LoadScene("Game_Start");
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     //End_UI
@@ -65,6 +77,7 @@ public class UI_S : MonoBehaviour
 
     public void Game_Score()
     {
+        audio_s.Play();
         this.transform.GetChild(1).gameObject.transform.GetChild(2).transform.GetChild(1).gameObject.SetActive(true);
     }
 

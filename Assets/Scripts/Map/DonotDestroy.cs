@@ -11,6 +11,9 @@ public class DonotDestroy : MonoBehaviour
 
     void Update()
     {
-        DontDestroyOnLoad(GameObject.Find("Player").GetComponent<Player_S>().take_item);
+        if (GameObject.Find("Canvas").GetComponent<UI_Test_S>().Next == true)
+        {
+            DontDestroyOnLoad(GameObject.Find("Player").GetComponent<Player_S>().take_item);
+        }
     }
 }
