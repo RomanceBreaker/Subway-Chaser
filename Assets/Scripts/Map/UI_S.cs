@@ -33,7 +33,7 @@ public class UI_S : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             bgm_s.UnPause();
-            audio_s.Play();
+            audio_s.UnPause();
             Time.timeScale = 0f;
             this.transform.GetChild(1).gameObject.SetActive(true);
         }
@@ -55,6 +55,7 @@ public class UI_S : MonoBehaviour
     public void Game_Resume()
     {
         audio_s.Play();
+        bgm_s.UnPause();
         Time.timeScale = 1f;
         pause = false;
         this.transform.GetChild(0).gameObject.SetActive(false);
